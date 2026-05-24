@@ -1,0 +1,534 @@
+{
+  "title": "",
+  "theme": {
+    "slide_width": 7.6,
+    "slide_height": 9.4,
+    "background_color": "#FFFFFF",
+    "font_name": "Times New Roman",
+    "font_color": "#111111",
+    "line_color": "#222222",
+    "line_width": 0.9,
+    "box_fill": "#FFF4C9",
+    "box_line": "#333333",
+    "decision_fill": "#FFF4C9",
+    "terminator_fill": "#FFF4C9"
+  },
+  "overlays": [
+    {
+      "shape": "rect",
+      "x": 1.4,
+      "y": 4.15,
+      "w": 5.35,
+      "h": 3.95,
+      "fill_color": "none",
+      "line_color": "#666666",
+      "line_width": 0.8,
+      "line_dash": "dash"
+    },
+    {
+      "shape": "rect",
+      "x": 3.95,
+      "y": 4.55,
+      "w": 2.4,
+      "h": 3.15,
+      "fill_color": "#D9D9D9",
+      "line_color": "none",
+      "line_width": 0
+    },
+    {
+      "shape": "oval",
+      "x": 2.45,
+      "y": 7.88,
+      "w": 0.18,
+      "h": 0.18,
+      "fill_color": "#FFFFFF",
+      "line_color": "#333333",
+      "line_width": 0.8
+    }
+  ],
+  "nodes": [
+    {
+      "id": "groups",
+      "shape": "rect",
+      "text": "Groups",
+      "x": 0.25,
+      "y": 0.45,
+      "w": 0.88,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "x_pool",
+      "shape": "rect",
+      "text": "X Avg Pool",
+      "x": 1.85,
+      "y": 1.25,
+      "w": 1.33,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "y_pool",
+      "shape": "rect",
+      "text": "Y Avg Pool",
+      "x": 3.55,
+      "y": 1.25,
+      "w": 1.35,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "conv3",
+      "shape": "rect",
+      "text": "Conv(3x3)",
+      "x": 5.25,
+      "y": 1.25,
+      "w": 1.35,
+      "h": 0.42,
+      "font_size": 14,
+      "fill_color": "#D68AC8"
+    },
+    {
+      "id": "concat",
+      "shape": "rect",
+      "text": "Concat+Conv(1x1)",
+      "x": 1.85,
+      "y": 1.95,
+      "w": 3.3,
+      "h": 0.42,
+      "font_size": 13
+    },
+    {
+      "id": "sigmoid_left_top",
+      "shape": "rect",
+      "text": "Sigmoid",
+      "x": 1.85,
+      "y": 2.72,
+      "w": 1.33,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "sigmoid_right_top",
+      "shape": "rect",
+      "text": "Sigmoid",
+      "x": 3.55,
+      "y": 2.72,
+      "w": 1.33,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "reweight_top",
+      "shape": "rect",
+      "text": "Re-weight",
+      "x": 1.8,
+      "y": 3.55,
+      "w": 1.4,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "groupnorm",
+      "shape": "rect",
+      "text": "GroupNorm",
+      "x": 1.75,
+      "y": 4.35,
+      "w": 1.4,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "avg_left",
+      "shape": "rect",
+      "text": "Avg Pool",
+      "x": 1.75,
+      "y": 5.08,
+      "w": 1.42,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "softmax_left",
+      "shape": "rect",
+      "text": "Softmax",
+      "x": 1.75,
+      "y": 5.88,
+      "w": 1.42,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "matmul_left",
+      "shape": "rect",
+      "text": "Matmul",
+      "x": 1.75,
+      "y": 6.7,
+      "w": 1.42,
+      "h": 0.42,
+      "font_size": 14
+    },
+    {
+      "id": "avg_right",
+      "shape": "rect",
+      "text": "Avg Pool",
+      "x": 5.25,
+      "y": 4.55,
+      "w": 1.35,
+      "h": 0.42,
+      "font_size": 14,
+      "fill_color": "#D68AC8"
+    },
+    {
+      "id": "softmax_right",
+      "shape": "rect",
+      "text": "Softmax",
+      "x": 5.25,
+      "y": 5.45,
+      "w": 1.35,
+      "h": 0.42,
+      "font_size": 14,
+      "fill_color": "#D68AC8"
+    },
+    {
+      "id": "matmul_right",
+      "shape": "rect",
+      "text": "Matmul",
+      "x": 5.25,
+      "y": 6.45,
+      "w": 1.35,
+      "h": 0.42,
+      "font_size": 14,
+      "fill_color": "#D68AC8"
+    },
+    {
+      "id": "sigmoid_bottom",
+      "shape": "rect",
+      "text": "Sigmoid",
+      "x": 1.85,
+      "y": 8.25,
+      "w": 1.35,
+      "h": 0.42,
+      "font_size": 14,
+      "fill_color": "#2CB7F0"
+    },
+    {
+      "id": "reweight_bottom",
+      "shape": "rect",
+      "text": "Re-weight",
+      "x": 1.85,
+      "y": 8.85,
+      "w": 1.35,
+      "h": 0.42,
+      "font_size": 14,
+      "fill_color": "#2CB7F0"
+    }
+  ],
+  "edges": [
+    {
+      "from": "groups",
+      "to": "x_pool",
+      "from_side": "right",
+      "to_side": "top"
+    },
+    {
+      "from": "groups",
+      "to": "y_pool",
+      "from_side": "right",
+      "to_side": "top"
+    },
+    {
+      "from": "groups",
+      "to": "conv3",
+      "from_side": "right",
+      "to_side": "top"
+    },
+    {
+      "from": "x_pool",
+      "to": "concat",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "y_pool",
+      "to": "concat",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "concat",
+      "to": "sigmoid_left_top",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "concat",
+      "to": "sigmoid_right_top",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "sigmoid_left_top",
+      "to": "reweight_top",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "sigmoid_right_top",
+      "to": "reweight_top",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "reweight_top",
+      "to": "groupnorm",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "groupnorm",
+      "to": "avg_left",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "avg_left",
+      "to": "softmax_left",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "softmax_left",
+      "to": "matmul_left",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "conv3",
+      "to": "avg_right",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "avg_right",
+      "to": "softmax_right",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "softmax_right",
+      "to": "matmul_right",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "matmul_left",
+      "to": "sigmoid_bottom",
+      "from_side": "bottom",
+      "to_side": "top"
+    },
+    {
+      "from": "matmul_right",
+      "to": "sigmoid_bottom",
+      "from_side": "left",
+      "to_side": "right"
+    },
+    {
+      "from": "sigmoid_bottom",
+      "to": "reweight_bottom",
+      "from_side": "bottom",
+      "to_side": "top"
+    }
+  ],
+  "texts": [
+    {
+      "text": "Input",
+      "x": 0.0,
+      "y": 0.0,
+      "w": 0.6,
+      "h": 0.22,
+      "font_size": 13,
+      "align": "left"
+    },
+    {
+      "text": "CxHxW",
+      "x": 0.72,
+      "y": 0.0,
+      "w": 1.0,
+      "h": 0.22,
+      "font_size": 13,
+      "align": "left"
+    },
+    {
+      "text": "C//GxHxW",
+      "x": 1.2,
+      "y": 0.38,
+      "w": 1.35,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//Gx1xW",
+      "x": 1.2,
+      "y": 0.95,
+      "w": 1.28,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//GxHx1",
+      "x": 3.0,
+      "y": 0.95,
+      "w": 1.28,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//GxHxW",
+      "x": 5.2,
+      "y": 0.95,
+      "w": 1.28,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//Gx1x(W+H)",
+      "x": 2.35,
+      "y": 1.72,
+      "w": 1.8,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//Gx1xW",
+      "x": 1.2,
+      "y": 2.42,
+      "w": 1.28,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//GxHx1",
+      "x": 3.35,
+      "y": 2.42,
+      "w": 1.28,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//GxHxW",
+      "x": 0.05,
+      "y": 2.9,
+      "w": 1.2,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//GxHxW",
+      "x": 4.6,
+      "y": 3.85,
+      "w": 1.35,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//Gx1x1",
+      "x": 0.7,
+      "y": 5.0,
+      "w": 1.15,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "1xC//G",
+      "x": 0.65,
+      "y": 5.86,
+      "w": 1.0,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "1xHxW",
+      "x": 1.55,
+      "y": 7.28,
+      "w": 0.9,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "C//Gx1x1",
+      "x": 6.72,
+      "y": 4.7,
+      "w": 0.95,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "1xC//G",
+      "x": 6.72,
+      "y": 5.62,
+      "w": 0.95,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "1xHxW",
+      "x": 5.55,
+      "y": 7.32,
+      "w": 0.9,
+      "h": 0.22,
+      "font_size": 12,
+      "align": "left"
+    },
+    {
+      "text": "Cross-spatial learning",
+      "x": 4.65,
+      "y": 7.82,
+      "w": 2.1,
+      "h": 0.28,
+      "font_size": 13,
+      "align": "left"
+    },
+    {
+      "text": "Output",
+      "x": 1.55,
+      "y": 9.08,
+      "w": 0.7,
+      "h": 0.22,
+      "font_size": 13,
+      "align": "left"
+    },
+    {
+      "text": "CxHxW",
+      "x": 2.45,
+      "y": 9.08,
+      "w": 0.9,
+      "h": 0.22,
+      "font_size": 13,
+      "align": "left"
+    },
+    {
+      "text": "x",
+      "x": 2.46,
+      "y": 7.75,
+      "w": 0.15,
+      "h": 0.15,
+      "font_size": 12,
+      "align": "center"
+    }
+  ]
+}
