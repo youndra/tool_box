@@ -1,51 +1,75 @@
-# Flowchart Image To Editable PPTX
+# 图片流程图转可编辑 PPTX
 
-Convert a flowchart image or architecture diagram into an editable PowerPoint file made from native PowerPoint shapes, text boxes, and connectors.
+这个项目用于把流程图图片、结构图图片、论文模块图等内容，重建为可编辑的 PowerPoint 文件。
 
-This repository is designed for cases where a screenshot, paper figure, or diagram image needs to become a `.pptx` that can be manually edited later.
+导出的 `.pptx` 不是简单把图片贴进幻灯片，而是尽量使用 PowerPoint 原生对象来表达，包括：
 
-## What This Project Does
+- 形状
+- 文本框
+- 连线
+- 背景区块
+- 表格式布局
 
-- Rebuilds diagrams as editable PowerPoint objects
-- Stores each result in a folder named after the source image
-- Keeps the intermediate JSON spec for later adjustment
-- Works well for flowcharts, module diagrams, and model-structure figures
+这样导出后的文件可以继续在 PowerPoint 中手动修改。
 
-## Current Workflow
+## 项目目标
 
-This project currently uses a semi-automatic workflow:
+这个项目的核心目标不是做“完全自动识图”，而是提供一套稳定的半自动流程：
 
-1. Inspect the source image
-2. Create a JSON layout spec
-3. Generate the editable PPTX from the JSON spec
+1. 从图片中理解结构
+2. 用 JSON 描述图中的对象和布局
+3. 根据 JSON 生成可编辑的 PPTX
 
-The JSON step is the editable bridge between image understanding and PowerPoint output.
+相比直接重新手工画图，这种方式更适合复用、调整和持续迭代。
 
-## Project Structure
+## 适用场景
+
+这个项目适合以下类型的图片：
+
+- 业务流程图
+- 网络结构图
+- 注意力模块图
+- 论文中的模型示意图
+- 希望后续继续修改的 PPT 图示
+
+## 当前能力
+
+当前生成器支持：
+
+- 常见矩形和流程图形状
+- 独立文本标注
+- 背景色块
+- 虚线边框
+- 直线连接
+- 通过普通矩形模拟表格布局
+
+## 项目结构
 
 ```text
 .
 ├─ scripts/
+│  ├─ bootstrap_from_image.py
 │  ├─ build_flowchart_pptx.py
 │  └─ generate_pptx.py
 ├─ CA/
+│  ├─ CA.png
 │  ├─ CA.json
 │  └─ CA.pptx
 ├─ EMA注意力/
+│  ├─ EMA注意力.jpg
 │  ├─ EMA注意力.json
 │  └─ EMA注意力.pptx
 ├─ yolov8模块细节图/
+│  ├─ yolov8模块细节图.png
 │  ├─ yolov8模块细节图.json
 │  └─ yolov8模块细节图.pptx
-├─ CA.png
-├─ EMA注意力.jpg
-├─ yolov8模块细节图.png
 ├─ README.md
 ├─ requirements.txt
+├─ LICENSE
 └─ 操作流程.md
 ```
 
-## Installation
+## 安装方式
 
 ```powershell
 python -m venv .venv
@@ -53,30 +77,45 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Usage
+## 使用方式
 
-### Step 1: Bootstrap a new image workspace
+### 1. 只给图片，先创建输出骨架
 
-If you only have an image and want to start fast, run:
+如果你手上只有图片，先运行：
 
 ```powershell
-python .\scripts\bootstrap_from_image.py .\examples\new-diagram.png
+python .\scripts\bootstrap_from_image.py .\CA\CA.png --output-root .\outputs
 ```
 
-This creates:
+这会自动创建：
 
 ```text
 outputs/
-└─ new-diagram/
-   ├─ new-diagram.png
-   └─ new-diagram.json
+└─ CA/
+   ├─ CA.png
+   └─ CA.json
 ```
 
-Then edit the JSON spec and generate the PPTX.
+其中：
 
-### Step 2: Generate the editable PPTX
+- 文件夹名使用图片名
+- 图片会复制进去
+- 同时生成一个同名的 JSON 骨架文件
 
-Prepare a JSON spec first, then run:
+### 2. 编辑 JSON 规格
+
+JSON 用来描述 PPT 里的元素，例如：
+
+- `theme`：整体主题与尺寸
+- `overlays`：背景块、装饰块
+- `segments`：自由线段
+- `nodes`：流程框、模块框
+- `edges`：节点之间的连线
+- `texts`：额外文字说明
+
+### 3. 生成可编辑 PPTX
+
+编辑好 JSON 后运行：
 
 ```powershell
 python .\scripts\generate_pptx.py `
@@ -86,7 +125,7 @@ python .\scripts\generate_pptx.py `
   --copy-image
 ```
 
-This creates:
+这会生成：
 
 ```text
 outputs/
@@ -96,47 +135,54 @@ outputs/
    └─ CA.pptx
 ```
 
-The output folder name is always the source image name without its extension.
+## 输出规则
 
-## JSON Capabilities
+后续统一遵循下面的输出规则：
 
-The generator supports:
+- 每张图片对应一个同名文件夹
+- 文件夹内保存同名 `.json`
+- 文件夹内保存同名 `.pptx`
+- 如果需要，也可以把原图一起复制进去
 
-- Rounded rectangles and common flowchart shapes
-- Free text labels
-- Background panels
-- Solid and dashed lines
-- Straight connectors between blocks
-- Table-like layouts built from regular rectangles
+例如：
 
-## Best Use Cases
+```text
+outputs/
+└─ yolov8模块细节图/
+   ├─ yolov8模块细节图.png
+   ├─ yolov8模块细节图.json
+   └─ yolov8模块细节图.pptx
+```
 
-- Research paper module diagrams
-- Model architecture illustrations
-- Process flowcharts
-- Attention-module diagrams
-- Diagrams that need later manual editing in PowerPoint
+## 已包含示例
 
-## Limitations
-
-- The image-to-JSON step is not fully automatic yet
-- Curved arrows are approximated with straight editable lines
-- Very dense diagrams may need manual cleanup after export
-- Pixel-perfect reproduction is not the goal; editability is
-
-## Example Outputs
-
-Current examples included in this repository:
+仓库中目前包含 3 个实际示例：
 
 - `CA`
 - `EMA注意力`
 - `yolov8模块细节图`
 
-Each example folder contains the editable `.pptx` and the corresponding `.json`.
+每个示例目录都包含：
 
-## Next Improvements
+- 原图
+- JSON 规格
+- 可编辑 PPTX
 
-- Add image-to-JSON automation
-- Add OCR-assisted text extraction
-- Add support for elbow connectors
-- Add template export styles for cleaner visual consistency
+## 当前限制
+
+目前仍然存在这些限制：
+
+- 图片到 JSON 这一步还不是全自动
+- 弯折线和复杂箭头还原有限
+- 特别密集的图仍然可能需要手工微调
+- 当前优先目标是“可编辑”，不是“逐像素复刻”
+
+## 后续可扩展方向
+
+后续可以继续扩展：
+
+- 自动识别图片中的框、箭头和文本
+- 引入 OCR 提高文本提取效率
+- 支持折线连接
+- 支持更丰富的图形模板
+- 逐步发展为更自动化的图转 PPT 工具
