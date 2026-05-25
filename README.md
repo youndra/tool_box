@@ -55,6 +55,10 @@
 
 建议任何模型在“图片 -> JSON”时，都参考这三份文件。
 
+如果有 Codex 这类 agent，可以直接让 agent 看图并产出 JSON。
+
+如果没有 agent，也可以直接把图片上传到网页 AI，再把 [PROMPT_TEMPLATE.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\PROMPT_TEMPLATE.md) 里的提示词复制进去，让网页 AI 输出 JSON。
+
 ## 项目结构
 
 ```text
