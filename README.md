@@ -43,6 +43,18 @@
 - 直线连接
 - 通过普通矩形模拟表格布局
 
+## 面向不同 AI 模型的说明
+
+如果别人 `git clone` 这个项目，但使用的不是 GPT，而是其他支持看图的 AI，也仍然可以使用这套流程。
+
+为了尽量减少不同模型之间的输出差异，仓库中补充了这几份说明：
+
+- [JSON_SCHEMA.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\JSON_SCHEMA.md)
+- [PROMPT_TEMPLATE.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\PROMPT_TEMPLATE.md)
+- [AI使用说明.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\AI使用说明.md)
+
+建议任何模型在“图片 -> JSON”时，都参考这三份文件。
+
 ## 项目结构
 
 ```text
