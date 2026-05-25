@@ -1,91 +1,33 @@
-# 图片流程图转可编辑 PPTX
+# 图片转可编辑 PPTX
 
-这个项目用于把流程图图片、结构图图片、论文模块图等内容，重建为可编辑的 PowerPoint 文件。
+这个项目用于把流程图图片、结构图图片、论文模块图等内容，转换成可编辑的 PowerPoint 文件。
 
-导出的 `.pptx` 不是简单把图片贴进幻灯片，而是尽量使用 PowerPoint 原生对象来表达，包括：
+这里的“可编辑”指的是：
 
-- 形状
-- 文本框
-- 连线
-- 背景区块
-- 表格式布局
+- 方框可改
+- 文字可改
+- 连线可改
+- 区块可改
+- 布局可继续调整
 
-这样导出后的文件可以继续在 PowerPoint 中手动修改。
+## 项目现状
 
-## 项目目标
+当前流程分成两段：
 
-这个项目的核心目标不是做“完全自动识图”，而是提供一套稳定的半自动流程：
+1. `图片 -> JSON`
+2. `JSON -> PPTX`
 
-1. 从图片中理解结构
-2. 用 JSON 描述图中的对象和布局
-3. 根据 JSON 生成可编辑的 PPTX
+其中：
 
-相比直接重新手工画图，这种方式更适合复用、调整和持续迭代。
+- `JSON -> PPTX` 已经由脚本自动完成
+- `图片 -> JSON` 目前依赖 AI 辅助理解图片结构
 
-## 适用场景
+所以这个项目支持两种使用方式：
 
-这个项目适合以下类型的图片：
+1. 有 Codex 这类 agent
+2. 没有 agent，只使用网页 AI
 
-- 业务流程图
-- 网络结构图
-- 注意力模块图
-- 论文中的模型示意图
-- 希望后续继续修改的 PPT 图示
-
-## 当前能力
-
-当前生成器支持：
-
-- 常见矩形和流程图形状
-- 独立文本标注
-- 背景色块
-- 虚线边框
-- 直线连接
-- 通过普通矩形模拟表格布局
-
-## 面向不同 AI 模型的说明
-
-如果别人 `git clone` 这个项目，但使用的不是 GPT，而是其他支持看图的 AI，也仍然可以使用这套流程。
-
-为了尽量减少不同模型之间的输出差异，仓库中补充了这几份说明：
-
-- [JSON_SCHEMA.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\JSON_SCHEMA.md)
-- [PROMPT_TEMPLATE.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\PROMPT_TEMPLATE.md)
-- [AI使用说明.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\AI使用说明.md)
-
-建议任何模型在“图片 -> JSON”时，都参考这三份文件。
-
-如果有 Codex 这类 agent，可以直接让 agent 看图并产出 JSON。
-
-如果没有 agent，也可以直接把图片上传到网页 AI，再把 [PROMPT_TEMPLATE.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\PROMPT_TEMPLATE.md) 里的提示词复制进去，让网页 AI 输出 JSON。
-
-## 项目结构
-
-```text
-.
-├─ scripts/
-│  ├─ bootstrap_from_image.py
-│  ├─ build_flowchart_pptx.py
-│  └─ generate_pptx.py
-├─ CA/
-│  ├─ CA.png
-│  ├─ CA.json
-│  └─ CA.pptx
-├─ EMA注意力/
-│  ├─ EMA注意力.jpg
-│  ├─ EMA注意力.json
-│  └─ EMA注意力.pptx
-├─ yolov8模块细节图/
-│  ├─ yolov8模块细节图.png
-│  ├─ yolov8模块细节图.json
-│  └─ yolov8模块细节图.pptx
-├─ README.md
-├─ requirements.txt
-├─ LICENSE
-└─ 操作流程.md
-```
-
-## 安装方式
+## 安装
 
 ```powershell
 python -m venv .venv
@@ -93,45 +35,18 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## 使用方式
+## 用法一：有 agent
 
-### 1. 只给图片，先创建输出骨架
+适合使用 Codex 这类可以看图、理解结构、并操作仓库的 agent。
 
-如果你手上只有图片，先运行：
+流程如下：
 
-```powershell
-python .\scripts\bootstrap_from_image.py .\CA\CA.png --output-root .\outputs
-```
+1. 把图片放进项目目录
+2. 让 agent 参考 `JSON_SCHEMA.md` 和示例文件理解输出格式
+3. 让 agent 直接生成同名 `.json`
+4. 运行脚本生成可编辑 PPTX
 
-这会自动创建：
-
-```text
-outputs/
-└─ CA/
-   ├─ CA.png
-   └─ CA.json
-```
-
-其中：
-
-- 文件夹名使用图片名
-- 图片会复制进去
-- 同时生成一个同名的 JSON 骨架文件
-
-### 2. 编辑 JSON 规格
-
-JSON 用来描述 PPT 里的元素，例如：
-
-- `theme`：整体主题与尺寸
-- `overlays`：背景块、装饰块
-- `segments`：自由线段
-- `nodes`：流程框、模块框
-- `edges`：节点之间的连线
-- `texts`：额外文字说明
-
-### 3. 生成可编辑 PPTX
-
-编辑好 JSON 后运行：
+生成命令：
 
 ```powershell
 python .\scripts\generate_pptx.py `
@@ -141,7 +56,7 @@ python .\scripts\generate_pptx.py `
   --copy-image
 ```
 
-这会生成：
+生成结果：
 
 ```text
 outputs/
@@ -151,54 +66,142 @@ outputs/
    └─ CA.pptx
 ```
 
-## 输出规则
+## 用法二：没有 agent，只有网页 AI
 
-后续统一遵循下面的输出规则：
+如果没有 Codex 这类 agent，也可以完成整套流程。
 
-- 每张图片对应一个同名文件夹
-- 文件夹内保存同名 `.json`
-- 文件夹内保存同名 `.pptx`
-- 如果需要，也可以把原图一起复制进去
+### 第 1 步：准备图片
 
-例如：
+例如图片路径是：
+
+```text
+CA/CA.png
+```
+
+### 第 2 步：把图片上传到网页 AI
+
+把图片上传到任意支持看图的网页 AI，例如：
+
+- ChatGPT
+- Claude
+- Gemini
+- Kimi
+- 通义
+- 豆包
+
+### 第 3 步：把提示词发给网页 AI
+
+把 [PROMPT_TEMPLATE.md](C:\Users\86183\Desktop\Codex\流程图转变成可编辑\PROMPT_TEMPLATE.md) 里的提示词完整复制给网页 AI。
+
+目标是让网页 AI 只输出 JSON。
+
+### 第 4 步：保存网页 AI 返回的 JSON
+
+网页 AI 输出 JSON 后，手动把结果保存成同名文件。
+
+例如图片是 `CA.png`，那就保存为：
+
+```text
+CA/CA.json
+```
+
+或者也可以保存到你刚创建的输出骨架里：
+
+```text
+outputs/CA/CA.json
+```
+
+核心要求只有一个：
+
+- `.json` 文件内容必须是合法 JSON
+- 字段结构符合 `JSON_SCHEMA.md`
+
+### 第 5 步：生成 PPTX
+
+如果你把 JSON 保存在：
+
+```text
+CA/CA.json
+```
+
+就运行：
+
+```powershell
+python .\scripts\generate_pptx.py `
+  --image .\CA\CA.png `
+  --spec .\CA\CA.json `
+  --output-root .\outputs `
+  --copy-image
+```
+
+如果你把 JSON 保存在：
+
+```text
+outputs/CA/CA.json
+```
+
+就运行：
+
+```powershell
+python .\scripts\generate_pptx.py `
+  --image .\CA\CA.png `
+  --spec .\outputs\CA\CA.json `
+  --output-root .\outputs `
+  --copy-image
+```
+
+### 第 6 步：检查结果
+
+脚本执行后会生成：
 
 ```text
 outputs/
-└─ yolov8模块细节图/
-   ├─ yolov8模块细节图.png
-   ├─ yolov8模块细节图.json
-   └─ yolov8模块细节图.pptx
+└─ CA/
+   ├─ CA.png
+   ├─ CA.json
+   └─ CA.pptx
 ```
 
-## 已包含示例
+然后直接打开 `CA.pptx` 检查：
 
-仓库中目前包含 3 个实际示例：
+- 方框是否能单独选中
+- 文字是否能直接编辑
+- 连线是否合理
+- 标注是否有遮挡
 
-- `CA`
-- `EMA注意力`
-- `yolov8模块细节图`
+## 骨架命令
 
-每个示例目录都包含：
+如果你想先自动创建输出文件夹和空白 JSON，可以先运行：
 
-- 原图
-- JSON 规格
-- 可编辑 PPTX
+```powershell
+python .\scripts\bootstrap_from_image.py .\CA\CA.png --output-root .\outputs
+```
 
-## 当前限制
+这会创建：
 
-目前仍然存在这些限制：
+```text
+outputs/
+└─ CA/
+   ├─ CA.png
+   └─ CA.json
+```
 
-- 图片到 JSON 这一步还不是全自动
-- 弯折线和复杂箭头还原有限
-- 特别密集的图仍然可能需要手工微调
-- 当前优先目标是“可编辑”，不是“逐像素复刻”
+## 关键文件
 
-## 后续可扩展方向
+- `scripts/build_flowchart_pptx.py`
+  负责把 JSON 转换成可编辑 PPTX
 
-后续可以继续扩展：
+- `scripts/generate_pptx.py`
+  负责按图片名输出到对应文件夹
 
-- 自动识别图片中的框、箭头和文本
-- 引入 OCR 提高文本提取效率
-- 支持折线连接
-- 支持更丰富的图形模板
-- 逐步发展为更自动化的图转 PPT 工具
+- `scripts/bootstrap_from_image.py`
+  负责创建输出骨架
+
+- `JSON_SCHEMA.md`
+  说明 JSON 字段结构
+
+- `PROMPT_TEMPLATE.md`
+  提供给网页 AI 的提示词
+
+- `操作流程.md`
+  提供更细的实际操作步骤
